@@ -1,0 +1,17 @@
+# Broker de mensajes para la práctica 3.1.
+# El usuario y la contraseña se leen del .env (RABBITMQ_USER, RABBITMQ_PASSWORD).
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: correos-rabbitmq
+    ports:
+      - "5672:5672"     # AMQP: Laravel publica y consume por aquí
+      - "15672:15672"   # Panel web de administración
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    volumes:
+      - rabbitmq-datos:/var/lib/rabbitmq   # los mensajes durables sobreviven a un reinicio
+
+volumes:
+  rabbitmq-datos:
